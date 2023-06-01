@@ -1,12 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { pokeball } from '../assets';
 import { AiOutlineMenu } from 'react-icons/ai';
-
 const PAGES = [
   {
     name: 'Search',
-    path: '/search',
+    path: '/',
   },
   {
     name: 'Compare',
@@ -14,7 +13,7 @@ const PAGES = [
   },
   {
     name: 'Pokemon',
-    path: '/pokemon',
+    path: '/pokemon/:id',
   },
   {
     name: 'My List',
@@ -27,13 +26,19 @@ const PAGES = [
 ];
 
 const Navbar = () => {
+  const { id } = useParams();
+
   return (
     <StyledNavbar>
-      <PokeballLogo src={pokeball} alt='pokeball' />
+      <Link to='/'>
+        <PokeballLogo src={pokeball} alt='pokeball' />
+      </Link>
 
       <Wrapper>
         {PAGES.map(page => (
-          <Link to={page.path}>{page.name}</Link>
+          <StyledNavLink to={page.path} key={page.name}>
+            {page.name}
+          </StyledNavLink>
         ))}
       </Wrapper>
 
@@ -47,8 +52,6 @@ const StyledNavbar = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-
-  border: 1px solid red;
 `;
 
 const Wrapper = styled.div`
@@ -58,6 +61,7 @@ const Wrapper = styled.div`
   a {
     color: white;
     text-decoration: none;
+    text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 400;
     margin: 0 1rem;
@@ -67,6 +71,20 @@ const Wrapper = styled.div`
 const PokeballLogo = styled.img`
   width: 5rem;
   height: 5rem;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  &.active {
+    font-weight: 600;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: white;
+    }
+  }
 `;
 
 export default Navbar;

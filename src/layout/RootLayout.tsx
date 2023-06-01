@@ -9,7 +9,9 @@ const RootLayout = () => {
       <Background />
       <AppWrapper>
         <Navbar />
-        <Outlet />
+        <MainContent>
+          <Outlet />
+        </MainContent>
         <Footer />
       </AppWrapper>
     </StyledRootLayout>
@@ -34,10 +36,14 @@ const AppWrapper = styled.div`
   display: grid;
   grid-template-rows: 10vh auto 10vh;
   grid-template-columns: 1fr;
-
   color: white;
-
   padding: 0 2rem;
 `;
 
+const MainContent = styled.div`
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: rgba(55, 55, 56, 0.3);
+`;
 export default RootLayout;
