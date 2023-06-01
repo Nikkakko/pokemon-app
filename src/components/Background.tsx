@@ -19,6 +19,7 @@ const StyledBackground = styled.div`
   z-index: -1;
   position: absolute;
   max-height: 100vh;
+  //set images to random positions with display grid
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
