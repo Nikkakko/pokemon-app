@@ -1,30 +1,21 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { Footer, Navbar } from '../sections';
 import { Background } from '../components';
 
-const RootLayout = () => {
-  const { id } = useParams();
+const SingleLayout = () => {
   return (
-    <StyledRootLayout>
-      <Background />
-      <AppWrapper>
-        <Navbar />
-        <MainContent>
-          <Outlet />
-        </MainContent>
-        {id && <Footer />}
-      </AppWrapper>
-    </StyledRootLayout>
+    <StyledSingleLayout>
+      <MainContent>
+        <Outlet />
+      </MainContent>
+
+      <Footer />
+    </StyledSingleLayout>
   );
 };
 
-const StyledRootLayout = styled.div`
-  position: relative;
-  max-width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-`;
+const StyledSingleLayout = styled.div``;
 
 const AppWrapper = styled.div`
   z-index: 1;
@@ -47,4 +38,4 @@ const MainContent = styled.div`
   margin: 0 auto;
   background-color: rgba(55, 55, 56, 0.3);
 `;
-export default RootLayout;
+export default SingleLayout;

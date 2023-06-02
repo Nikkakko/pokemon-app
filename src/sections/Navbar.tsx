@@ -69,8 +69,8 @@ const Wrapper = styled.div`
 `;
 
 const PokeballLogo = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
 `;
 
 const StyledNavLink = styled(NavLink)`
