@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type Pokemon = {
-  name: string;
-  url: string;
-};
+import { allPokemonStateType } from '../utils/types';
 
 export interface PokemonState {
-  allPokemon: Pokemon[];
+  allPokemon: allPokemonStateType[];
 }
 
 const initialState: PokemonState = {
@@ -17,7 +13,7 @@ const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState,
   reducers: {
-    setAllPokemon(state, action: PayloadAction<Pokemon[]>) {
+    setAllPokemon(state, action: PayloadAction<allPokemonStateType[]>) {
       // spread state and add payload
       state.allPokemon = action.payload;
     },

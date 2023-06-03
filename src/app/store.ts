@@ -1,11 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import pokemonReducer from '../features/pokemonSlice';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 // ...
+
+//add middleware
 
 export const store = configureStore({
   reducer: {
     pokemon: pokemonReducer,
   },
+
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

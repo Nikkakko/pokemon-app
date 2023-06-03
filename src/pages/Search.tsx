@@ -11,8 +11,6 @@ const Search = () => {
     return <PokeballLoader />;
   }
 
-  console.log(allPokemon);
-
   return (
     <StyledContainer>
       <SearchBar />
@@ -29,13 +27,32 @@ const Search = () => {
 const StyledContainer = styled.div``;
 
 const ContentWrapper = styled.div`
-  margin-top: 20px;
+  margin: 20px;
 
   display: grid;
-
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
-  padding: 0 20px;
+  padding: 0px 20px;
+
+  overflow-y: scroll;
+  height: 80vh;
+
+  // style scrollbar
+  ::-webkit-scrollbar {
+    width: 10px;
+
+    &-track {
+      background: #f1f1f1;
+    }
+
+    &-thumb {
+      background: #888;
+    }
+
+    &-thumb:hover {
+      background: #555;
+    }
+  }
 `;
 
 export default Search;
