@@ -2,31 +2,32 @@ import { Link, useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { pokeball } from '../assets';
 import { AiOutlineMenu } from 'react-icons/ai';
-const PAGES = [
-  {
-    name: 'Search',
-    path: '/',
-  },
-  {
-    name: 'Compare',
-    path: '/compare',
-  },
-  {
-    name: 'Pokemon',
-    path: '/pokemon/:id',
-  },
-  {
-    name: 'My List',
-    path: '/mylist',
-  },
-  {
-    name: 'About',
-    path: '/about',
-  },
-];
 
 const Navbar = () => {
   const { id } = useParams();
+
+  const PAGES = [
+    {
+      name: 'Search',
+      path: '/',
+    },
+    {
+      name: 'Compare',
+      path: '/compare',
+    },
+    {
+      name: 'Pokemon',
+      path: `/pokemon/${id}/description`,
+    },
+    {
+      name: 'My List',
+      path: '/mylist',
+    },
+    {
+      name: 'About',
+      path: '/about',
+    },
+  ];
 
   return (
     <StyledNavbar>
@@ -52,6 +53,8 @@ const StyledNavbar = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+
+  position: relative;
 `;
 
 const Wrapper = styled.div`
@@ -76,10 +79,14 @@ const PokeballLogo = styled.img`
 const StyledNavLink = styled(NavLink)`
   &.active {
     font-weight: 600;
+    //animate the line
 
     &::after {
       content: '';
       display: block;
+
+      bottom: -5px;
+
       width: 100%;
       height: 2px;
       background-color: white;

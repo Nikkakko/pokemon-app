@@ -50,8 +50,25 @@ export interface pokemonTypeInterface {
 }
 
 export interface allPokemonStateType {
+  id: number;
   name: string;
   url: string;
+
+  stats: [
+    {
+      base_stat: number;
+      effort: number;
+      stat: {
+        name: string;
+        url: string;
+      };
+    }
+  ];
+
+  sprites?: {
+    back_default: string;
+    front_default: string;
+  };
 
   types: [
     {

@@ -13,7 +13,7 @@ export const router = createBrowserRouter(
     <Route path='/' element={<RootLayout />}>
       <Route index element={<Search />} />
       <Route path='/compare' element={<Compare />} />
-      <Route path='/pokemon/:id' element={<Pokemon />} />
+      {/* <Route path='/pokemon/:id/description' element={<Pokemon />} /> */}
       <Route path='/mylist' element={<MyList />} />
       <Route path='/about' element={<About />} />
       <Route path='/pokemon/:id/description' element={<Description />} />

@@ -8,13 +8,13 @@ type Pokemon = {
   url: string;
 };
 
-export const usePokemon = () => {
+export const usePokemon = (limit: number) => {
   const dispatch = useAppDispatch();
   return useQuery({
     queryKey: ['search'],
     queryFn: async () => {
       const { data } = await axios.get(
-        'https://pokeapi.co/api/v2/pokemon?offset=20&limit=20'
+        `https://pokeapi.co/api/v2/pokemon?offset=20&limit=20}`
       );
 
       //loop though data and get each pokemon
@@ -41,6 +41,19 @@ export const usePokemonByName = (name: string) => {
     queryFn: async () => {
       const { data } = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${name}`
+      );
+
+      return data;
+    },
+  });
+};
+
+export const useSinglePokemon = (id: string) => {
+  return useQuery({
+    queryKey: ['search', id],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon/${id}`
       );
 
       return data;

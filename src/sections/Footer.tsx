@@ -1,30 +1,29 @@
 import { Link, useParams, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const POKEMON_PAGES = [
-  {
-    name: 'Description',
-    path: '/pokemon/:id/description',
-  },
-  {
-    name: 'Evolution',
-    path: '/pokemon/:id/evolution',
-  },
-  {
-    name: 'Catching',
-    path: '/pokemon/:id/catching',
-  },
-
-  {
-    name: 'Capable Moves',
-    path: '/pokemon/:id/capable-moves',
-  },
-];
-
 const Footer = () => {
   const { id } = useParams();
 
-  console.log(id);
+  const POKEMON_PAGES = [
+    {
+      name: 'Description',
+      path: `/pokemon/${id}/description`,
+    },
+    {
+      name: 'Evolution',
+      path: `/pokemon/${id}/evolution`,
+    },
+    {
+      name: 'Catching',
+      path: `/pokemon/${id}/catching`,
+    },
+
+    {
+      name: 'Capable Moves',
+      path: `/pokemon/${id}/capable-moves`,
+    },
+  ];
+
   return (
     <StyledFooter>
       <Wrapper>
@@ -79,6 +78,7 @@ const StyledNavLink = styled(NavLink)`
 
   &:hover {
     background: #71fa9f;
+
     transition: all 0.3s ease-in-out;
   }
 

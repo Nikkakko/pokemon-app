@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { pokemonTypes } from '../utils/pokemonTypes';
 import { BiGitCompare } from 'react-icons/bi';
 import { HiPlus } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 
 type PokemonCardProps = {
   pokemon: {
+    id: number;
     name: string;
     url: string;
     sprites?: {
@@ -24,8 +26,11 @@ type PokemonCardProps = {
 };
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => navigate(`/pokemon/${pokemon.id}/description`);
   return (
-    <Container>
+    <Container onClick={handleNavigate}>
       <Title>{pokemon?.name}</Title>
 
       {pokemon?.types.map((type, idx) => {

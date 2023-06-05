@@ -2,13 +2,20 @@ import styled from 'styled-components';
 import { PokeballLoader, PokemonCard, SearchBar } from '../components';
 import { useAppSelector } from '../app/hooks';
 import { usePokemon } from '../hooks/use-pokemon';
+import { useState } from 'react';
 
 const Search = () => {
   const { allPokemon } = useAppSelector(state => state.pokemon);
-  const { isLoading } = usePokemon();
+  const [limit, setLimit] = useState(20);
+
+  const { isLoading, isFetching } = usePokemon(limit);
 
   if (isLoading) {
     return <PokeballLoader />;
+  }
+
+  if (isFetching) {
+    return <div>Fetching...</div>;
   }
 
   return (

@@ -14,7 +14,6 @@ const pokemonSlice = createSlice({
   initialState,
   reducers: {
     setAllPokemon(state, action: PayloadAction<allPokemonStateType[]>) {
-      // spread state and add payload
       state.allPokemon = action.payload;
     },
   },
