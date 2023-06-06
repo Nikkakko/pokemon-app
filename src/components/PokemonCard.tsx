@@ -33,7 +33,7 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
     <Container onClick={handleNavigate}>
       <Title>{pokemon?.name}</Title>
 
-      {pokemon?.types.map((type, idx) => {
+      {pokemon?.types?.map((type, idx) => {
         const keys = Object.keys(pokemonTypes).filter(
           key => key === type.type.name
         );

@@ -1,20 +1,21 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { setAllPokemon } from '../features/pokemonSlice';
+import { setAllPokemon, setSinglePokemon } from '../features/pokemonSlice';
 import { useAppDispatch } from '../app/hooks';
+import { useDebounce } from './useDebounce';
 
 type Pokemon = {
   name: string;
   url: string;
 };
 
-export const usePokemon = (limit: number) => {
+export const usePokemon = () => {
   const dispatch = useAppDispatch();
   return useQuery({
     queryKey: ['search'],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon?offset=${limit}&limit=20}`
+        `https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`
       );
 
       //loop though data and get each pokemon
@@ -28,9 +29,13 @@ export const usePokemon = (limit: number) => {
         })
       );
 
+      //combine data and nextData
+
+      const currentList = [...pokemon];
+
       // dispatch to redux
-      dispatch(setAllPokemon(pokemon));
-      return pokemon;
+      dispatch(setAllPokemon(currentList));
+      return data;
     },
   });
 };
@@ -58,6 +63,30 @@ export const usePokemonEvolutionChain = (id: number) => {
       );
 
       return data;
+    },
+  });
+};
+
+// get pokemon by search input
+
+export const usePokemonBySearch = (name: string) => {
+  const debouncedName = useDebounce(name, 500);
+  const dispatch = useAppDispatch();
+
+  return useQuery({
+    queryKey: ['search', debouncedName],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon/${debouncedName}`
+      );
+
+      if (debouncedName !== '') {
+        dispatch(setSinglePokemon([data]));
+        return data;
+      } else {
+        dispatch(setSinglePokemon([]));
+        return [];
+      }
     },
   });
 };
