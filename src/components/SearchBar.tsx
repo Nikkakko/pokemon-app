@@ -1,33 +1,42 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { setAllPokemon } from '../features/pokemonSlice';
+import { setSinglePokemon } from '../features/pokemonSlice';
 import { useAppDispatch } from '../app/hooks';
+import { useDebounce } from '../hooks/useDebounce';
 
 const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
   const dispatch = useAppDispatch();
+  const debouncedSearch = useDebounce(search, 500); // debounce search term
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // debounce function
 
-    // fetch pokemon data
-    const fetchPokemon = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/${search.toLowerCase()}`);
-        dispatch(setAllPokemon([res.data]));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchPokemon();
+  const fetchPokemon = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/${search.toLowerCase()}`);
+      dispatch(setSinglePokemon([res.data]));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  useEffect(() => {
+    if (debouncedSearch) {
+      fetchPokemon();
+    }
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    if (search === '') {
+      dispatch(setSinglePokemon([]));
+    }
+  }, [search, dispatch]);
+
   return (
-    <form onSubmit={handleSearch}>
+    <form>
       <Input
         type='text'
         placeholder='Search for a Pokemon'

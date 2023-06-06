@@ -3,10 +3,12 @@ import { allPokemonStateType } from '../utils/types';
 
 export interface PokemonState {
   allPokemon: allPokemonStateType[];
+  singlePokemon: allPokemonStateType[];
 }
 
 const initialState: PokemonState = {
   allPokemon: [],
+  singlePokemon: [],
 };
 
 const pokemonSlice = createSlice({
@@ -16,9 +18,13 @@ const pokemonSlice = createSlice({
     setAllPokemon(state, action: PayloadAction<allPokemonStateType[]>) {
       state.allPokemon = action.payload;
     },
+
+    setSinglePokemon(state, action: PayloadAction<allPokemonStateType[]>) {
+      state.singlePokemon = action.payload;
+    },
   },
 });
 
-export const { setAllPokemon } = pokemonSlice.actions;
+export const { setAllPokemon, setSinglePokemon } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

@@ -5,7 +5,7 @@ import { usePokemon } from '../hooks/use-pokemon';
 import { useState } from 'react';
 
 const Search = () => {
-  const { allPokemon } = useAppSelector(state => state.pokemon);
+  const { allPokemon, singlePokemon } = useAppSelector(state => state.pokemon);
   const [limit, setLimit] = useState(20);
 
   const { isLoading, isFetching } = usePokemon(limit);
@@ -22,10 +22,15 @@ const Search = () => {
     <StyledContainer>
       <SearchBar />
       <ContentWrapper>
-        {allPokemon?.map((pokemon, idx) => (
-          //loop through pokemon url and render a PokemonCard for each pokemon
+        {singlePokemon?.map((pokemon, idx) => (
           <PokemonCard key={idx} pokemon={pokemon} />
         ))}
+
+        {singlePokemon.length < 1 &&
+          allPokemon?.map((pokemon, idx) => (
+            //loop through pokemon url and render a PokemonCard for each pokemon
+            <PokemonCard key={idx} pokemon={pokemon} />
+          ))}
       </ContentWrapper>
     </StyledContainer>
   );
