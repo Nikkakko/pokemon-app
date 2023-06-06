@@ -14,7 +14,7 @@ export const usePokemon = (limit: number) => {
     queryKey: ['search'],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon?offset=20&limit=20}`
+        `https://pokeapi.co/api/v2/pokemon?offset=${limit}&limit=20}`
       );
 
       //loop though data and get each pokemon
@@ -48,12 +48,13 @@ export const usePokemonByName = (name: string) => {
   });
 };
 
-export const useSinglePokemon = (id: string) => {
+// get pokemon evolution chain by id
+export const usePokemonEvolutionChain = (id: number) => {
   return useQuery({
     queryKey: ['search', id],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${id}`
+        `https://pokeapi.co/api/v2/evolution-chain/${id}`
       );
 
       return data;

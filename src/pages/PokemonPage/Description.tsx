@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 import styled from 'styled-components';
-import { BattleStats } from '../../components';
 
 const Description = () => {
   const { allPokemon } = useAppSelector(state => state.pokemon);

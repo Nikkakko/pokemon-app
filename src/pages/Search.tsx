@@ -35,12 +35,10 @@ const StyledContainer = styled.div``;
 
 const ContentWrapper = styled.div`
   margin: 20px;
-
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
   padding: 0px 20px;
-
   overflow-y: scroll;
   height: 80vh;
 
