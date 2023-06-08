@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import { pokemonTypes } from '../utils/pokemonTypes';
 import { BiGitCompare } from 'react-icons/bi';
-import { HiPlus } from 'react-icons/hi';
+import { HiPlus, HiTrash } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { addPokemon, removePokemon } from '../features/pokemonSlice';
+import { allPokemonStateType } from '../utils/types';
+import { toast } from 'react-toastify';
 
 type PokemonCardProps = {
   pokemon: {
@@ -23,33 +27,70 @@ type PokemonCardProps = {
       }
     ];
   };
+
+  myList?: boolean;
 };
 
-const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+const PokemonCard = ({ pokemon, myList }: PokemonCardProps) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { allPokemon } = useAppSelector(state => state.pokemon);
+
+  const findPokemon = allPokemon.find(poke => poke.id === pokemon.id);
 
   const handleNavigate = () => navigate(`/pokemon/${pokemon.id}/description`);
+
+  const handleAddPokemon = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent event propagation to the parent container
+    dispatch(addPokemon(pokemon as allPokemonStateType));
+    //add toastify here
+    toast.success(`${pokemon.name} added to your list!`, {
+      position: 'top-center',
+      autoClose: 2000,
+    });
+  };
+
+  const handleRemovePokemon = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent event propagation to the parent container
+    dispatch(removePokemon(pokemon as allPokemonStateType));
+
+    //add toastify here
+    toast.error(`${pokemon.name} removed from your list!`, {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true,
+    });
+  };
+
   return (
     <Container onClick={handleNavigate}>
       <Title>{pokemon?.name}</Title>
 
-      {pokemon?.types?.map((type, idx) => {
-        const keys = Object.keys(pokemonTypes).filter(
-          key => key === type.type.name
-        );
+      {(findPokemon?.types || pokemon?.types)?.map((type, idx) => {
+        const typeName = type.type.name;
+        const keys = Object.keys(pokemonTypes).filter(key => key === typeName);
 
         return (
           <TypesWrapper key={idx}>
-            <p>{type.type.name}</p>
-            <TypeImg src={pokemonTypes[keys[0]].image} alt={type.type.name} />
+            <p>{typeName}</p>
+            <TypeImg src={pokemonTypes[keys[0]].image} alt={typeName} />
           </TypesWrapper>
         );
       })}
 
-      <IconAdd />
+      {!myList && <IconAdd onClick={handleAddPokemon} />}
+      {myList && <IconDelete onClick={handleRemovePokemon} />}
+
       <IconCompare />
 
-      <PokemonImg src={pokemon?.sprites?.front_default} loading={'lazy'} />
+      <PokemonImg
+        src={
+          pokemon?.sprites?.front_default || findPokemon?.sprites?.front_default
+        }
+        loading={'lazy'}
+      />
     </Container>
   );
 };
@@ -116,6 +157,20 @@ const IconCompare = styled(BiGitCompare)`
   right: 10px;
   font-size: 20px;
   color: #1f51ff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+const IconDelete = styled(HiTrash)`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  color: #ee8e8e;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 

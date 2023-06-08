@@ -28,9 +28,11 @@ const Footer = () => {
     <StyledFooter>
       <Wrapper>
         {POKEMON_PAGES.map(page => (
-          <StyledNavLink key={page.name} to={page.path}>
-            <Link to={page.path}>{page.name}</Link>
-          </StyledNavLink>
+          <LinkWrapper>
+            <StyledNavLink key={page.name} to={page.path}>
+              <Link to={page.path}>{page.name}</Link>
+            </StyledNavLink>
+          </LinkWrapper>
         ))}
       </Wrapper>
     </StyledFooter>
@@ -85,6 +87,12 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     background: #71fa9f;
   }
+`;
+
+const LinkWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
 `;
 
 export default Footer;

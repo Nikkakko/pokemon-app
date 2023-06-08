@@ -10,6 +10,17 @@ const Description = () => {
   // map through allPokemon and find the pokemon with the matching id
   const findPokemon = allPokemon?.find(pokemon => pokemon.id === paramId);
 
+  if (!findPokemon)
+    return (
+      <NotFound>
+        <h1>
+          404
+          <br />
+          Pokemon not found!
+        </h1>
+      </NotFound>
+    );
+
   return (
     <Container>
       <NameAndType>
@@ -158,5 +169,16 @@ const BattleStatsWrapper = styled.div`
   gap: 10px;
 
   align-items: flex-start;
+`;
+
+const NotFound = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+
+  color: white;
+
+  text-align: center;
 `;
 export default Description;

@@ -1,11 +1,9 @@
-import { Link, useParams, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { pokeball } from '../assets';
 import { AiOutlineMenu } from 'react-icons/ai';
 
 const Navbar = () => {
-  const { id } = useParams();
-
   const PAGES = [
     {
       name: 'Search',
@@ -15,10 +13,7 @@ const Navbar = () => {
       name: 'Compare',
       path: '/compare',
     },
-    {
-      name: 'Pokemon',
-      path: `/pokemon/${id}/description`,
-    },
+
     {
       name: 'My List',
       path: '/mylist',

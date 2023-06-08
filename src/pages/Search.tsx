@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { PokeballLoader, PokemonCard, SearchBar } from '../components';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { usePokemon } from '../hooks/use-pokemon';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { setAllPokemon } from '../features/pokemonSlice';
 import axios from 'axios';
 
@@ -13,26 +13,17 @@ type Pokemon = {
 
 const Search = () => {
   const { allPokemon, singlePokemon } = useAppSelector(state => state.pokemon);
-  const [offset, setOffset] = useState<number>(20); // [2
+  const [offset, setOffset] = useState<number>(20);
   const dispatch = useAppDispatch();
   const { isLoading, isFetching } = usePokemon();
 
-  if (isLoading) {
-    return <PokeballLoader />;
-  }
-
-  if (isFetching) {
-    return <PokeballLoader />;
-  }
-
-  const handleLoadMore = async () => {
-    //increase limit and offset by 20
-    setOffset(offset + 20);
+  const handleLoadMore = useCallback(async () => {
+    const newOffset = offset + 20;
 
     const res = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}`
+      `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${newOffset}`
     );
-    //loop through res.data.results and fetch each pokemon
+
     const pokemon = res.data.results.map(async (pokemon: Pokemon) => {
       const res = await axios.get(pokemon.url);
       return res.data;
@@ -40,8 +31,14 @@ const Search = () => {
 
     const allPokemon = await Promise.all(pokemon);
 
+    setOffset(newOffset);
+
     dispatch(setAllPokemon(allPokemon));
-  };
+  }, [offset, dispatch]);
+
+  if (isLoading || isFetching) {
+    return <PokeballLoader />;
+  }
 
   return (
     <StyledContainer>
@@ -58,7 +55,9 @@ const Search = () => {
             <PokemonCard key={idx} pokemon={pokemon} />
           ))}
 
-        <button onClick={handleLoadMore}>Load More</button>
+        <Button onClick={handleLoadMore} disabled={isFetching || isLoading}>
+          Load More
+        </Button>
       </ContentWrapper>
     </StyledContainer>
   );
@@ -90,6 +89,27 @@ const ContentWrapper = styled.div`
     &-thumb:hover {
       background: #555;
     }
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  height: 40px;
+
+  border: none;
+
+  background-color: #94949424;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #949494;
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 

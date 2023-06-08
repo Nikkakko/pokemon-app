@@ -40,12 +40,12 @@ export const usePokemon = () => {
   });
 };
 
-export const usePokemonByName = (name: string) => {
+export const useGetPokemonSpecies = (id: number) => {
   return useQuery({
     queryKey: ['search', name],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
+        `https://pokeapi.co/api/v2/pokemon-species/${id}`
       );
 
       return data;
